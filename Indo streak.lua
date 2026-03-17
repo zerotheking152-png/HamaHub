@@ -61,20 +61,20 @@ ScreenGui.Parent = player:WaitForChild("PlayerGui")
 ScreenGui.ResetOnSpawn = false
 
 local MainFrame = Instance.new("Frame")
-MainFrame.Size = UDim2.new(0, 300, 0, 320)
-MainFrame.Position = UDim2.new(1, -310, 0, 10)
+MainFrame.Size = UDim2.new(0, 400, 0, 450)
+MainFrame.Position = UDim2.new(1, -410, 0, 10)
 MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 MainFrame.BorderSizePixel = 0
 MainFrame.Parent = ScreenGui
 
 -- Neon Stroke + Corner + Gradient
 local UICorner = Instance.new("UICorner")
-UICorner.CornerRadius = UDim.new(0, 12)
+UICorner.CornerRadius = UDim.new(0, 16)
 UICorner.Parent = MainFrame
 
 local UIStroke = Instance.new("UIStroke")
 UIStroke.Color = Color3.fromRGB(0, 255, 100)
-UIStroke.Thickness = 2
+UIStroke.Thickness = 3
 UIStroke.Parent = MainFrame
 
 local UIGradient = Instance.new("UIGradient")
@@ -106,7 +106,7 @@ end)
 
 -- === TITLE HAMZHUB KEREN (H merah, M kuning, Z biru) ===
 local Title = Instance.new("TextLabel")
-Title.Size = UDim2.new(1, 0, 0, 60)
+Title.Size = UDim2.new(1, 0, 0, 80)
 Title.BackgroundTransparency = 1
 Title.Text = '<font color="#FF0000">H</font><font color="#FFFFFF">A</font><font color="#FFFF00">M</font><font color="#00BFFF">Z</font><font color="#FFFFFF">HUB</font>'
 Title.TextColor3 = Color3.fromRGB(255,255,255)
@@ -117,8 +117,8 @@ Title.Parent = MainFrame
 
 -- === TAB BUTTONS ===
 local TabFrame = Instance.new("Frame")
-TabFrame.Size = UDim2.new(1, 0, 0, 40)
-TabFrame.Position = UDim2.new(0, 0, 0, 60)
+TabFrame.Size = UDim2.new(1, 0, 0, 50)
+TabFrame.Position = UDim2.new(0, 0, 0, 80)
 TabFrame.BackgroundTransparency = 1
 TabFrame.Parent = MainFrame
 
@@ -146,15 +146,15 @@ local PlayerTabCorner = Instance.new("UICorner"); PlayerTabCorner.CornerRadius =
 
 -- === MAIN TAB (Blati Instant Fishing) ===
 local MainContent = Instance.new("Frame")
-MainContent.Size = UDim2.new(1, 0, 1, -100)
-MainContent.Position = UDim2.new(0, 0, 0, 100)
+MainContent.Size = UDim2.new(1, 0, 1, -130)
+MainContent.Position = UDim2.new(0, 0, 0, 130)
 MainContent.BackgroundTransparency = 1
 MainContent.Visible = true
 MainContent.Parent = MainFrame
 
 local BlatiBtn = Instance.new("TextButton")
-BlatiBtn.Size = UDim2.new(0.9, 0, 0, 55)
-BlatiBtn.Position = UDim2.new(0.05, 0, 0.1, 0)
+BlatiBtn.Size = UDim2.new(0.9, 0, 0, 70)
+BlatiBtn.Position = UDim2.new(0.05, 0, 0.05, 0)
 BlatiBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
 BlatiBtn.Text = "BLATI (Instant Fishing): OFF"
 BlatiBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -164,8 +164,8 @@ BlatiBtn.Parent = MainContent
 local BlatiCorner = Instance.new("UICorner"); BlatiCorner.CornerRadius = UDim.new(0,10); BlatiCorner.Parent = BlatiBtn
 
 local Status = Instance.new("TextLabel")
-Status.Size = UDim2.new(0.9, 0, 0, 40)
-Status.Position = UDim2.new(0.05, 0, 0.35, 0)
+Status.Size = UDim2.new(0.9, 0, 0, 45)
+Status.Position = UDim2.new(0.05, 0, 0.28, 0)
 Status.BackgroundTransparency = 1
 Status.Text = "Cast manual 1x dulu pake rod biasa!"
 Status.TextColor3 = Color3.fromRGB(255, 200, 0)
@@ -175,15 +175,15 @@ Status.Parent = MainContent
 
 -- === PLAYER TAB ===
 local PlayerContent = Instance.new("Frame")
-PlayerContent.Size = UDim2.new(1, 0, 1, -100)
-PlayerContent.Position = UDim2.new(0, 0, 0, 100)
+PlayerContent.Size = UDim2.new(1, 0, 1, -130)
+PlayerContent.Position = UDim2.new(0, 0, 0, 130)
 PlayerContent.BackgroundTransparency = 1
 PlayerContent.Visible = false
 PlayerContent.Parent = MainFrame
 
 -- Infinite Jump
 local InfJumpBtn = Instance.new("TextButton")
-InfJumpBtn.Size = UDim2.new(0.9, 0, 0, 45)
+InfJumpBtn.Size = UDim2.new(0.9, 0, 0, 55)
 InfJumpBtn.Position = UDim2.new(0.05, 0, 0.05, 0)
 InfJumpBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
 InfJumpBtn.Text = "Infinite Jump: OFF"
@@ -195,8 +195,8 @@ local InfJumpCorner = Instance.new("UICorner"); InfJumpCorner.CornerRadius = UDi
 
 -- Noclip
 local NoclipBtn = Instance.new("TextButton")
-NoclipBtn.Size = UDim2.new(0.9, 0, 0, 45)
-NoclipBtn.Position = UDim2.new(0.05, 0, 0.3, 0)
+NoclipBtn.Size = UDim2.new(0.9, 0, 0, 55)
+NoclipBtn.Position = UDim2.new(0.05, 0, 0.22, 0)
 NoclipBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
 NoclipBtn.Text = "Noclip: OFF"
 NoclipBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -207,8 +207,8 @@ local NoclipCorner = Instance.new("UICorner"); NoclipCorner.CornerRadius = UDim.
 
 -- WalkSpeed
 local WSFrame = Instance.new("Frame")
-WSFrame.Size = UDim2.new(0.9, 0, 0, 50)
-WSFrame.Position = UDim2.new(0.05, 0, 0.55, 0)
+WSFrame.Size = UDim2.new(0.9, 0, 0, 65)
+WSFrame.Position = UDim2.new(0.05, 0, 0.39, 0)
 WSFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 WSFrame.Parent = PlayerContent
 local WSCorner = Instance.new("UICorner"); WSCorner.CornerRadius = UDim.new(0,10); WSCorner.Parent = WSFrame
@@ -246,8 +246,8 @@ local WSSetCorner = Instance.new("UICorner"); WSSetCorner.CornerRadius = UDim.ne
 
 -- === SELL INTERVAL (baru) ===
 local SellIntFrame = Instance.new("Frame")
-SellIntFrame.Size = UDim2.new(0.9, 0, 0, 50)
-SellIntFrame.Position = UDim2.new(0.05, 0, 0.72, 0)
+SellIntFrame.Size = UDim2.new(0.9, 0, 0, 65)
+SellIntFrame.Position = UDim2.new(0.05, 0, 0.56, 0)
 SellIntFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 SellIntFrame.Parent = PlayerContent
 local SellIntCorner = Instance.new("UICorner"); SellIntCorner.CornerRadius = UDim.new(0,10); SellIntCorner.Parent = SellIntFrame
@@ -285,8 +285,8 @@ local SellIntSetCorner = Instance.new("UICorner"); SellIntSetCorner.CornerRadius
 
 -- === AUTO SELL BUTTON ===
 local AutoSellBtn = Instance.new("TextButton")
-AutoSellBtn.Size = UDim2.new(0.9, 0, 0, 45)
-AutoSellBtn.Position = UDim2.new(0.05, 0, 0.89, 0)
+AutoSellBtn.Size = UDim2.new(0.9, 0, 0, 55)
+AutoSellBtn.Position = UDim2.new(0.05, 0, 0.75, 0)
 AutoSellBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
 AutoSellBtn.Text = "AUTO SELL: OFF"
 AutoSellBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -479,8 +479,8 @@ end)
 
 -- === MINIMIZE GUI ===
 local MinimizeBtn = Instance.new("TextButton")
-MinimizeBtn.Size = UDim2.new(0, 40, 0, 30)
-MinimizeBtn.Position = UDim2.new(1, -50, 0, 15)
+MinimizeBtn.Size = UDim2.new(0, 50, 0, 35)
+MinimizeBtn.Position = UDim2.new(1, -60, 0, 20)
 MinimizeBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 MinimizeBtn.Text = "–"
 MinimizeBtn.TextColor3 = Color3.fromRGB(0, 255, 100)
@@ -495,14 +495,14 @@ local origSize = MainFrame.Size
 MinimizeBtn.MouseButton1Click:Connect(function()
     minimized = not minimized
     if minimized then
-        MainFrame.Size = UDim2.new(0, 300, 0, 90)
+        MainFrame.Size = UDim2.new(0, 400, 0, 110)
         TabFrame.Visible = false
         MainContent.Visible = false
         PlayerContent.Visible = false
         local HamaLabel = Instance.new("TextLabel")
         HamaLabel.Name = "HamaMinLabel"
-        HamaLabel.Size = UDim2.new(0.6, 0, 0, 30)
-        HamaLabel.Position = UDim2.new(0.2, 0, 0.65, 0)
+        HamaLabel.Size = UDim2.new(0.7, 0, 0, 45)
+        HamaLabel.Position = UDim2.new(0.15, 0, 0.55, 0)
         HamaLabel.BackgroundTransparency = 1
         HamaLabel.Text = "Hama"
         HamaLabel.TextColor3 = Color3.fromRGB(0, 255, 100)
