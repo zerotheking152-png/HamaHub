@@ -272,7 +272,9 @@ local function startBlati()
                 local successArgs = {
                     ["duration"] = math.random(7.5, 12.5),
                     ["result"] = "SUCCESS",
-                    ["insideRatio"] = 0.8 + (math.random(3, 18) / 100)
+                    ["insideRatio"] = 0.8 + (math.random(3, 18) / 100),
+                    ["catchType"] = "SECRET",
+                    ["isSecret"] = true
                 }
                 reelFinished:FireServer(successArgs, sessionID)
                 task.wait(0.01)
