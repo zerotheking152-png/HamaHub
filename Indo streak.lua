@@ -378,4 +378,53 @@ Players.LocalPlayer.Idled:Connect(function()
     VirtualUser:Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
 end)
 
+-- === MINIMIZE GUI (UI baru dengan tulisan "Hama" pas minimized) ===
+local MinimizeBtn = Instance.new("TextButton")
+MinimizeBtn.Size = UDim2.new(0, 40, 0, 30)
+MinimizeBtn.Position = UDim2.new(1, -50, 0, 15)
+MinimizeBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+MinimizeBtn.Text = "–"
+MinimizeBtn.TextColor3 = Color3.fromRGB(0, 255, 100)
+MinimizeBtn.TextScaled = true
+MinimizeBtn.Font = Enum.Font.GothamBold
+MinimizeBtn.Parent = MainFrame
+local MinCorner = Instance.new("UICorner"); MinCorner.CornerRadius = UDim.new(0,8); MinCorner.Parent = MinimizeBtn
+
+local minimized = false
+local origSize = MainFrame.Size
+
+MinimizeBtn.MouseButton1Click:Connect(function()
+    minimized = not minimized
+    if minimized then
+        MainFrame.Size = UDim2.new(0, 420, 0, 90)
+        TabFrame.Visible = false
+        MainContent.Visible = false
+        PlayerContent.Visible = false
+        -- Tulisan "Hama" muncul pas minimized
+        local HamaLabel = Instance.new("TextLabel")
+        HamaLabel.Name = "HamaMinLabel"
+        HamaLabel.Size = UDim2.new(0.6, 0, 0, 30)
+        HamaLabel.Position = UDim2.new(0.2, 0, 0.65, 0)
+        HamaLabel.BackgroundTransparency = 1
+        HamaLabel.Text = "Hama"
+        HamaLabel.TextColor3 = Color3.fromRGB(0, 255, 100)
+        HamaLabel.TextScaled = true
+        HamaLabel.Font = Enum.Font.GothamBold
+        HamaLabel.Parent = MainFrame
+        local HamaStroke = Instance.new("UIStroke")
+        HamaStroke.Color = Color3.fromRGB(255, 255, 255)
+        HamaStroke.Thickness = 1
+        HamaStroke.Parent = HamaLabel
+        MinimizeBtn.Text = "+"
+    else
+        MainFrame.Size = origSize
+        TabFrame.Visible = true
+        MainContent.Visible = true
+        PlayerContent.Visible = false
+        local hama = MainFrame:FindFirstChild("HamaMinLabel")
+        if hama then hama:Destroy() end
+        MinimizeBtn.Text = "–"
+    end
+end)
+
 print("🎉 HAMZHUB GUI KEREN udah muncul bro! Tab MAIN & PLAYER siap. Cast manual 1x dulu biar Blati nyala. Gas polll 🔥")
