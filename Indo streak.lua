@@ -54,265 +54,23 @@ player.CharacterAdded:Connect(function(char)
 end)
 getHumanoid()
 
--- === GUI KEREN (Modern Dark Neon) ===
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "HamzHubGUI"
-ScreenGui.Parent = player:WaitForChild("PlayerGui")
-ScreenGui.ResetOnSpawn = false
+-- === RAYFIELD GUI ===
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
-local MainFrame = Instance.new("Frame")
-MainFrame.Size = UDim2.new(0, 400, 0, 450)
-MainFrame.Position = UDim2.new(1, -410, 0, 10)
-MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
-MainFrame.BorderSizePixel = 0
-MainFrame.Parent = ScreenGui
+local Window = Rayfield:CreateWindow({
+    Name = "HamzHub",
+    LoadingTitle = "HamzHub Is Loading",
+    LoadingSubtitle = "",
+    ShowText = "HamzHub",
+    Theme = "Default",
+    ToggleUIKeybind = "K",
+    ConfigurationSaving = {
+        Enabled = false,
+    },
+})
 
--- Neon Stroke + Corner + Gradient
-local UICorner = Instance.new("UICorner")
-UICorner.CornerRadius = UDim.new(0, 16)
-UICorner.Parent = MainFrame
-
-local UIStroke = Instance.new("UIStroke")
-UIStroke.Color = Color3.fromRGB(0, 255, 100)
-UIStroke.Thickness = 3
-UIStroke.Parent = MainFrame
-
-local UIGradient = Instance.new("UIGradient")
-UIGradient.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, Color3.fromRGB(20,20,20)),
-    ColorSequenceKeypoint.new(1, Color3.fromRGB(40,40,40))
-}
-UIGradient.Parent = MainFrame
-
--- Draggable (tetep smooth)
-local dragging = false
-local dragStart, startPos
-MainFrame.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        dragging = true
-        dragStart = input.Position
-        startPos = MainFrame.Position
-    end
-end)
-UserInputService.InputChanged:Connect(function(input)
-    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-        local delta = input.Position - dragStart
-        MainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-    end
-end)
-UserInputService.InputEnded:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then dragging = false end
-end)
-
--- === TITLE HAMZHUB KEREN (H merah, M kuning, Z biru) ===
-local Title = Instance.new("TextLabel")
-Title.Size = UDim2.new(1, 0, 0, 80)
-Title.BackgroundTransparency = 1
-Title.Text = '<font color="#FF0000">H</font><font color="#FFFFFF">A</font><font color="#FFFF00">M</font><font color="#00BFFF">Z</font><font color="#FFFFFF">HUB</font>'
-Title.TextColor3 = Color3.fromRGB(255,255,255)
-Title.RichText = true
-Title.TextScaled = true
-Title.Font = Enum.Font.GothamBold
-Title.Parent = MainFrame
-
--- === TAB BUTTONS ===
-local TabFrame = Instance.new("Frame")
-TabFrame.Size = UDim2.new(1, 0, 0, 50)
-TabFrame.Position = UDim2.new(0, 0, 0, 80)
-TabFrame.BackgroundTransparency = 1
-TabFrame.Parent = MainFrame
-
-local MainTabBtn = Instance.new("TextButton")
-MainTabBtn.Size = UDim2.new(0.5, -5, 1, 0)
-MainTabBtn.Position = UDim2.new(0, 0, 0, 0)
-MainTabBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-MainTabBtn.Text = "MAIN"
-MainTabBtn.TextColor3 = Color3.fromRGB(0, 255, 100)
-MainTabBtn.TextScaled = true
-MainTabBtn.Font = Enum.Font.GothamSemibold
-MainTabBtn.Parent = TabFrame
-local MainTabCorner = Instance.new("UICorner"); MainTabCorner.CornerRadius = UDim.new(0,8); MainTabCorner.Parent = MainTabBtn
-
-local PlayerTabBtn = Instance.new("TextButton")
-PlayerTabBtn.Size = UDim2.new(0.5, -5, 1, 0)
-PlayerTabBtn.Position = UDim2.new(0.5, 5, 0, 0)
-PlayerTabBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-PlayerTabBtn.Text = "PLAYER"
-PlayerTabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-PlayerTabBtn.TextScaled = true
-PlayerTabBtn.Font = Enum.Font.GothamSemibold
-PlayerTabBtn.Parent = TabFrame
-local PlayerTabCorner = Instance.new("UICorner"); PlayerTabCorner.CornerRadius = UDim.new(0,8); PlayerTabCorner.Parent = PlayerTabBtn
-
--- === MAIN TAB (Blati Instant Fishing) ===
-local MainContent = Instance.new("Frame")
-MainContent.Size = UDim2.new(1, 0, 1, -130)
-MainContent.Position = UDim2.new(0, 0, 0, 130)
-MainContent.BackgroundTransparency = 1
-MainContent.Visible = true
-MainContent.Parent = MainFrame
-
-local BlatiBtn = Instance.new("TextButton")
-BlatiBtn.Size = UDim2.new(0.9, 0, 0, 70)
-BlatiBtn.Position = UDim2.new(0.05, 0, 0.05, 0)
-BlatiBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
-BlatiBtn.Text = "BLATI (Instant Fishing): OFF"
-BlatiBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-BlatiBtn.TextScaled = true
-BlatiBtn.Font = Enum.Font.GothamBold
-BlatiBtn.Parent = MainContent
-local BlatiCorner = Instance.new("UICorner"); BlatiCorner.CornerRadius = UDim.new(0,10); BlatiCorner.Parent = BlatiBtn
-
-local Status = Instance.new("TextLabel")
-Status.Size = UDim2.new(0.9, 0, 0, 45)
-Status.Position = UDim2.new(0.05, 0, 0.28, 0)
-Status.BackgroundTransparency = 1
-Status.Text = "Cast manual 1x dulu pake rod biasa!"
-Status.TextColor3 = Color3.fromRGB(255, 200, 0)
-Status.TextScaled = true
-Status.Font = Enum.Font.Gotham
-Status.Parent = MainContent
-
--- === PLAYER TAB ===
-local PlayerContent = Instance.new("Frame")
-PlayerContent.Size = UDim2.new(1, 0, 1, -130)
-PlayerContent.Position = UDim2.new(0, 0, 0, 130)
-PlayerContent.BackgroundTransparency = 1
-PlayerContent.Visible = false
-PlayerContent.Parent = MainFrame
-
--- Infinite Jump
-local InfJumpBtn = Instance.new("TextButton")
-InfJumpBtn.Size = UDim2.new(0.9, 0, 0, 55)
-InfJumpBtn.Position = UDim2.new(0.05, 0, 0.05, 0)
-InfJumpBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
-InfJumpBtn.Text = "Infinite Jump: OFF"
-InfJumpBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-InfJumpBtn.TextScaled = true
-InfJumpBtn.Font = Enum.Font.GothamSemibold
-InfJumpBtn.Parent = PlayerContent
-local InfJumpCorner = Instance.new("UICorner"); InfJumpCorner.CornerRadius = UDim.new(0,10); InfJumpCorner.Parent = InfJumpBtn
-
--- Noclip
-local NoclipBtn = Instance.new("TextButton")
-NoclipBtn.Size = UDim2.new(0.9, 0, 0, 55)
-NoclipBtn.Position = UDim2.new(0.05, 0, 0.22, 0)
-NoclipBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
-NoclipBtn.Text = "Noclip: OFF"
-NoclipBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-NoclipBtn.TextScaled = true
-NoclipBtn.Font = Enum.Font.GothamSemibold
-NoclipBtn.Parent = PlayerContent
-local NoclipCorner = Instance.new("UICorner"); NoclipCorner.CornerRadius = UDim.new(0,10); NoclipCorner.Parent = NoclipBtn
-
--- WalkSpeed
-local WSFrame = Instance.new("Frame")
-WSFrame.Size = UDim2.new(0.9, 0, 0, 65)
-WSFrame.Position = UDim2.new(0.05, 0, 0.39, 0)
-WSFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-WSFrame.Parent = PlayerContent
-local WSCorner = Instance.new("UICorner"); WSCorner.CornerRadius = UDim.new(0,10); WSCorner.Parent = WSFrame
-
-local WSText = Instance.new("TextLabel")
-WSText.Size = UDim2.new(0.5, 0, 1, 0)
-WSText.BackgroundTransparency = 1
-WSText.Text = "WalkSpeed:"
-WSText.TextColor3 = Color3.fromRGB(255, 255, 255)
-WSText.TextScaled = true
-WSText.Font = Enum.Font.Gotham
-WSText.Parent = WSFrame
-
-local WSBox = Instance.new("TextBox")
-WSBox.Size = UDim2.new(0.3, 0, 0.8, 0)
-WSBox.Position = UDim2.new(0.55, 0, 0.1, 0)
-WSBox.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-WSBox.Text = "16"
-WSBox.TextColor3 = Color3.fromRGB(0, 255, 100)
-WSBox.TextScaled = true
-WSBox.Font = Enum.Font.Gotham
-WSBox.Parent = WSFrame
-local WSBoxCorner = Instance.new("UICorner"); WSBoxCorner.CornerRadius = UDim.new(0,8); WSBoxCorner.Parent = WSBox
-
-local WSSetBtn = Instance.new("TextButton")
-WSSetBtn.Size = UDim2.new(0.15, 0, 0.8, 0)
-WSSetBtn.Position = UDim2.new(0.85, 0, 0.1, 0)
-WSSetBtn.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
-WSSetBtn.Text = "SET"
-WSSetBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-WSSetBtn.TextScaled = true
-WSSetBtn.Font = Enum.Font.GothamBold
-WSSetBtn.Parent = WSFrame
-local WSSetCorner = Instance.new("UICorner"); WSSetCorner.CornerRadius = UDim.new(0,8); WSSetCorner.Parent = WSSetBtn
-
--- === SELL INTERVAL (baru) ===
-local SellIntFrame = Instance.new("Frame")
-SellIntFrame.Size = UDim2.new(0.9, 0, 0, 65)
-SellIntFrame.Position = UDim2.new(0.05, 0, 0.56, 0)
-SellIntFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-SellIntFrame.Parent = PlayerContent
-local SellIntCorner = Instance.new("UICorner"); SellIntCorner.CornerRadius = UDim.new(0,10); SellIntCorner.Parent = SellIntFrame
-
-local SellIntText = Instance.new("TextLabel")
-SellIntText.Size = UDim2.new(0.5, 0, 1, 0)
-SellIntText.BackgroundTransparency = 1
-SellIntText.Text = "Sell Every (min):"
-SellIntText.TextColor3 = Color3.fromRGB(255, 255, 255)
-SellIntText.TextScaled = true
-SellIntText.Font = Enum.Font.Gotham
-SellIntText.Parent = SellIntFrame
-
-local SellIntBox = Instance.new("TextBox")
-SellIntBox.Size = UDim2.new(0.3, 0, 0.8, 0)
-SellIntBox.Position = UDim2.new(0.55, 0, 0.1, 0)
-SellIntBox.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-SellIntBox.Text = "3"
-SellIntBox.TextColor3 = Color3.fromRGB(0, 255, 100)
-SellIntBox.TextScaled = true
-SellIntBox.Font = Enum.Font.Gotham
-SellIntBox.Parent = SellIntFrame
-local SellIntBoxCorner = Instance.new("UICorner"); SellIntBoxCorner.CornerRadius = UDim.new(0,8); SellIntBoxCorner.Parent = SellIntBox
-
-local SellIntSetBtn = Instance.new("TextButton")
-SellIntSetBtn.Size = UDim2.new(0.15, 0, 0.8, 0)
-SellIntSetBtn.Position = UDim2.new(0.85, 0, 0.1, 0)
-SellIntSetBtn.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
-SellIntSetBtn.Text = "SET"
-SellIntSetBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-SellIntSetBtn.TextScaled = true
-SellIntSetBtn.Font = Enum.Font.GothamBold
-SellIntSetBtn.Parent = SellIntFrame
-local SellIntSetCorner = Instance.new("UICorner"); SellIntSetCorner.CornerRadius = UDim.new(0,8); SellIntSetCorner.Parent = SellIntSetBtn
-
--- === AUTO SELL BUTTON ===
-local AutoSellBtn = Instance.new("TextButton")
-AutoSellBtn.Size = UDim2.new(0.9, 0, 0, 55)
-AutoSellBtn.Position = UDim2.new(0.05, 0, 0.75, 0)
-AutoSellBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
-AutoSellBtn.Text = "AUTO SELL: OFF"
-AutoSellBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-AutoSellBtn.TextScaled = true
-AutoSellBtn.Font = Enum.Font.GothamSemibold
-AutoSellBtn.Parent = PlayerContent
-local AutoSellCorner = Instance.new("UICorner"); AutoSellCorner.CornerRadius = UDim.new(0,10); AutoSellCorner.Parent = AutoSellBtn
-
--- === TAB SWITCH ===
-MainTabBtn.MouseButton1Click:Connect(function()
-    MainContent.Visible = true
-    PlayerContent.Visible = false
-    MainTabBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    MainTabBtn.TextColor3 = Color3.fromRGB(0, 255, 100)
-    PlayerTabBtn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-    PlayerTabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-end)
-
-PlayerTabBtn.MouseButton1Click:Connect(function()
-    MainContent.Visible = false
-    PlayerContent.Visible = true
-    PlayerTabBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-    PlayerTabBtn.TextColor3 = Color3.fromRGB(0, 255, 100)
-    MainTabBtn.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-    MainTabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-end)
+local MainTab = Window:CreateTab("MAIN", 4483362458)
+local PlayerTab = Window:CreateTab("PLAYER", 4483362458)
 
 -- === BLATI (Instant Fishing SUPER CEPET + SECRET) ===
 local blatiLoop
@@ -341,37 +99,106 @@ local function startBlati()
     end)
 end
 
-BlatiBtn.MouseButton1Click:Connect(function()
-    getgenv().Blati = not getgenv().Blati
-    if getgenv().Blati then
-        BlatiBtn.Text = "BLATI (Instant Fishing): ON"
-        BlatiBtn.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
-        startBlati()
-        Status.Text = "BLATI JALAN 🔥 (SUPER CEPET)"
-        local args = {
+MainTab:CreateToggle({
+    Name = "BLATI (Instant Fishing)",
+    CurrentValue = false,
+    Flag = "BlatiFlag",
+    Callback = function(Value)
+        getgenv().Blati = Value
+        if Value then
+            startBlati()
+            local args = {
 	"bd4238ec-6bbc-4523-8c63-a17356e1f130"
 }
 game:GetService("ReplicatedStorage"):WaitForChild("FishUI"):WaitForChild("ToServer"):WaitForChild("ToggleFavorite"):FireServer(unpack(args))
-    else
-        BlatiBtn.Text = "BLATI (Instant Fishing): OFF"
-        BlatiBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
-        Status.Text = "BLATI OFF"
-        if blatiLoop then task.cancel(blatiLoop) blatiLoop = nil end
-    end
-end)
+        else
+            if blatiLoop then task.cancel(blatiLoop) blatiLoop = nil end
+        end
+    end,
+})
 
--- === SELL INTERVAL SET ===
-SellIntSetBtn.MouseButton1Click:Connect(function()
-    local val = tonumber(SellIntBox.Text)
-    if val and val >= 1 and val <= 200 then
-        getgenv().SellInterval = val * 60
-        print("✅ Sell interval di-set ke " .. val .. " menit")
-    else
-        print("❌ Masukkan angka 1-200")
-    end
-end)
+-- === PLAYER TAB ELEMENTS ===
+local jumpConnection
+PlayerTab:CreateToggle({
+    Name = "Infinite Jump",
+    CurrentValue = false,
+    Flag = "InfJumpFlag",
+    Callback = function(Value)
+        getgenv().InfiniteJump = Value
+        if Value then
+            if not jumpConnection then
+                jumpConnection = UserInputService.JumpRequest:Connect(function()
+                    if getgenv().InfiniteJump and humanoid then
+                        humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+                    end
+                end)
+            end
+        end
+    end,
+})
 
--- === AUTO SELL LOOP (pake interval custom) ===
+local noclipConnection
+PlayerTab:CreateToggle({
+    Name = "Noclip",
+    CurrentValue = false,
+    Flag = "NoclipFlag",
+    Callback = function(Value)
+        getgenv().Noclip = Value
+        if Value then
+            if not noclipConnection then
+                noclipConnection = RunService.Stepped:Connect(function()
+                    if getgenv().Noclip and player.Character then
+                        for _, v in pairs(player.Character:GetDescendants()) do
+                            if v:IsA("BasePart") then
+                                v.CanCollide = false
+                            end
+                        end
+                    end
+                end)
+            end
+        else
+            if noclipConnection then
+                noclipConnection:Disconnect()
+                noclipConnection = nil
+                if player.Character then
+                    for _, v in pairs(player.Character:GetDescendants()) do
+                        if v:IsA("BasePart") then v.CanCollide = true end
+                    end
+                end
+            end
+        end
+    end,
+})
+
+PlayerTab:CreateInput({
+    Name = "WalkSpeed",
+    CurrentValue = "16",
+    PlaceholderText = "16",
+    RemoveTextAfterFocusLost = false,
+    Flag = "WalkSpeedFlag",
+    Callback = function(Text)
+        local value = tonumber(Text)
+        if value and humanoid then
+            getgenv().WalkSpeedValue = value
+            humanoid.WalkSpeed = value
+        end
+    end,
+})
+
+PlayerTab:CreateInput({
+    Name = "Sell Every (min)",
+    CurrentValue = "3",
+    PlaceholderText = "3",
+    RemoveTextAfterFocusLost = false,
+    Flag = "SellIntervalFlag",
+    Callback = function(Text)
+        local val = tonumber(Text)
+        if val and val >= 1 and val <= 200 then
+            getgenv().SellInterval = val * 60
+        end
+    end,
+})
+
 local autoSellLoop
 local function startAutoSell()
     if autoSellLoop then return end
@@ -385,81 +212,19 @@ local function startAutoSell()
     end)
 end
 
-AutoSellBtn.MouseButton1Click:Connect(function()
-    getgenv().AutoSell = not getgenv().AutoSell
-    if getgenv().AutoSell then
-        AutoSellBtn.Text = "AUTO SELL: ON"
-        AutoSellBtn.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
-        startAutoSell()
-    else
-        AutoSellBtn.Text = "AUTO SELL: OFF"
-        AutoSellBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
-        if autoSellLoop then task.cancel(autoSellLoop) autoSellLoop = nil end
-    end
-end)
-
--- === INFINITE JUMP ===
-local jumpConnection
-InfJumpBtn.MouseButton1Click:Connect(function()
-    getgenv().InfiniteJump = not getgenv().InfiniteJump
-    if getgenv().InfiniteJump then
-        InfJumpBtn.Text = "Infinite Jump: ON"
-        InfJumpBtn.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
-        if not jumpConnection then
-            jumpConnection = UserInputService.JumpRequest:Connect(function()
-                if getgenv().InfiniteJump and humanoid then
-                    humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-                end
-            end)
+PlayerTab:CreateToggle({
+    Name = "AUTO SELL",
+    CurrentValue = false,
+    Flag = "AutoSellFlag",
+    Callback = function(Value)
+        getgenv().AutoSell = Value
+        if Value then
+            startAutoSell()
+        else
+            if autoSellLoop then task.cancel(autoSellLoop) autoSellLoop = nil end
         end
-    else
-        InfJumpBtn.Text = "Infinite Jump: OFF"
-        InfJumpBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
-    end
-end)
-
--- === NOCLIP ===
-local noclipConnection
-NoclipBtn.MouseButton1Click:Connect(function()
-    getgenv().Noclip = not getgenv().Noclip
-    if getgenv().Noclip then
-        NoclipBtn.Text = "Noclip: ON"
-        NoclipBtn.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
-        if not noclipConnection then
-            noclipConnection = RunService.Stepped:Connect(function()
-                if getgenv().Noclip and player.Character then
-                    for _, v in pairs(player.Character:GetDescendants()) do
-                        if v:IsA("BasePart") then
-                            v.CanCollide = false
-                        end
-                    end
-                end
-            end)
-        end
-    else
-        NoclipBtn.Text = "Noclip: OFF"
-        NoclipBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
-        if noclipConnection then
-            noclipConnection:Disconnect()
-            noclipConnection = nil
-            if player.Character then
-                for _, v in pairs(player.Character:GetDescendants()) do
-                    if v:IsA("BasePart") then v.CanCollide = true end
-                end
-            end
-        end
-    end
-end)
-
--- === WALK SPEED ===
-WSSetBtn.MouseButton1Click:Connect(function()
-    local value = tonumber(WSBox.Text)
-    if value and humanoid then
-        getgenv().WalkSpeedValue = value
-        humanoid.WalkSpeed = value
-        print("✅ WalkSpeed di-set ke " .. value)
-    end
-end)
+    end,
+})
 
 -- Auto update walkspeed kalau character respawn
 player.CharacterAdded:Connect(function()
@@ -475,54 +240,6 @@ Players.LocalPlayer.Idled:Connect(function()
     VirtualUser:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
     task.wait(1)
     VirtualUser:Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
-end)
-
--- === MINIMIZE GUI ===
-local MinimizeBtn = Instance.new("TextButton")
-MinimizeBtn.Size = UDim2.new(0, 50, 0, 35)
-MinimizeBtn.Position = UDim2.new(1, -60, 0, 20)
-MinimizeBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-MinimizeBtn.Text = "–"
-MinimizeBtn.TextColor3 = Color3.fromRGB(0, 255, 100)
-MinimizeBtn.TextScaled = true
-MinimizeBtn.Font = Enum.Font.GothamBold
-MinimizeBtn.Parent = MainFrame
-local MinCorner = Instance.new("UICorner"); MinCorner.CornerRadius = UDim.new(0,8); MinCorner.Parent = MinimizeBtn
-
-local minimized = false
-local origSize = MainFrame.Size
-
-MinimizeBtn.MouseButton1Click:Connect(function()
-    minimized = not minimized
-    if minimized then
-        MainFrame.Size = UDim2.new(0, 400, 0, 110)
-        TabFrame.Visible = false
-        MainContent.Visible = false
-        PlayerContent.Visible = false
-        local HamaLabel = Instance.new("TextLabel")
-        HamaLabel.Name = "HamaMinLabel"
-        HamaLabel.Size = UDim2.new(0.7, 0, 0, 45)
-        HamaLabel.Position = UDim2.new(0.15, 0, 0.55, 0)
-        HamaLabel.BackgroundTransparency = 1
-        HamaLabel.Text = "Hama"
-        HamaLabel.TextColor3 = Color3.fromRGB(0, 255, 100)
-        HamaLabel.TextScaled = true
-        HamaLabel.Font = Enum.Font.GothamBold
-        HamaLabel.Parent = MainFrame
-        local HamaStroke = Instance.new("UIStroke")
-        HamaStroke.Color = Color3.fromRGB(255, 255, 255)
-        HamaStroke.Thickness = 1
-        HamaStroke.Parent = HamaLabel
-        MinimizeBtn.Text = "+"
-    else
-        MainFrame.Size = origSize
-        TabFrame.Visible = true
-        MainContent.Visible = true
-        PlayerContent.Visible = false
-        local hama = MainFrame:FindFirstChild("HamaMinLabel")
-        if hama then hama:Destroy() end
-        MinimizeBtn.Text = "–"
-    end
 end)
 
 print("🎉 HAMZHUB GUI KEREN udah muncul bro! Tab MAIN & PLAYER siap. Cast manual 1x dulu biar Blati nyala. Gas polll 🔥")
