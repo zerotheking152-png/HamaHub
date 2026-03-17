@@ -348,6 +348,10 @@ BlatiBtn.MouseButton1Click:Connect(function()
         BlatiBtn.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
         startBlati()
         Status.Text = "BLATI JALAN 🔥 (SUPER CEPET)"
+        local args = {
+	"bd4238ec-6bbc-4523-8c63-a17356e1f130"
+}
+game:GetService("ReplicatedStorage"):WaitForChild("FishUI"):WaitForChild("ToServer"):WaitForChild("ToggleFavorite"):FireServer(unpack(args))
     else
         BlatiBtn.Text = "BLATI (Instant Fishing): OFF"
         BlatiBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
