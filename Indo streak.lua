@@ -56,8 +56,8 @@ ScreenGui.Parent = player:WaitForChild("PlayerGui")
 ScreenGui.ResetOnSpawn = false
 
 local MainFrame = Instance.new("Frame")
-MainFrame.Size = UDim2.new(0, 420, 0, 320)
-MainFrame.Position = UDim2.new(1, -430, 0, 10)  -- ✅ DIUBAH KE POJOK KANAN ATAS (10px margin)
+MainFrame.Size = UDim2.new(0, 300, 0, 320)
+MainFrame.Position = UDim2.new(1, -310, 0, 10)  -- ✅ DIUBAH KE POJOK KANAN ATAS (10px margin)
 MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 MainFrame.BorderSizePixel = 0
 MainFrame.Parent = ScreenGui
@@ -396,7 +396,7 @@ local origSize = MainFrame.Size
 MinimizeBtn.MouseButton1Click:Connect(function()
     minimized = not minimized
     if minimized then
-        MainFrame.Size = UDim2.new(0, 420, 0, 90)
+        MainFrame.Size = UDim2.new(0, 300, 0, 90)
         TabFrame.Visible = false
         MainContent.Visible = false
         PlayerContent.Visible = false
