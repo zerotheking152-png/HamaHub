@@ -14,6 +14,9 @@ local toServer = fishingFolder:WaitForChild("ToServer")
 local minigameStarted = toServer:WaitForChild("MinigameStarted")
 local reelFinished = toServer:WaitForChild("ReelFinished")
 
+-- === SELL REMOTE (dari spy lo) ===
+local sellRemote = ReplicatedStorage:WaitForChild("Economy"):WaitForChild("ToServer"):WaitForChild("SellUnder")
+
 -- === SESSION ID HOOK ===
 local sessionID = nil
 local oldNamecall
@@ -33,6 +36,8 @@ getgenv().Blati = false
 getgenv().InfiniteJump = false
 getgenv().Noclip = false
 getgenv().WalkSpeedValue = 16
+getgenv().AutoSell = false
+getgenv().SellInterval = 180  -- default 3 menit (bisa diubah lewat box)
 
 -- === CHARACTER SETUP ===
 local humanoid = nil
@@ -57,7 +62,7 @@ ScreenGui.ResetOnSpawn = false
 
 local MainFrame = Instance.new("Frame")
 MainFrame.Size = UDim2.new(0, 300, 0, 320)
-MainFrame.Position = UDim2.new(1, -310, 0, 10)  -- ✅ DIUBAH KE POJOK KANAN ATAS (10px margin)
+MainFrame.Position = UDim2.new(1, -310, 0, 10)
 MainFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
 MainFrame.BorderSizePixel = 0
 MainFrame.Parent = ScreenGui
@@ -239,6 +244,57 @@ WSSetBtn.Font = Enum.Font.GothamBold
 WSSetBtn.Parent = WSFrame
 local WSSetCorner = Instance.new("UICorner"); WSSetCorner.CornerRadius = UDim.new(0,8); WSSetCorner.Parent = WSSetBtn
 
+-- === SELL INTERVAL (baru) ===
+local SellIntFrame = Instance.new("Frame")
+SellIntFrame.Size = UDim2.new(0.9, 0, 0, 50)
+SellIntFrame.Position = UDim2.new(0.05, 0, 0.72, 0)
+SellIntFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+SellIntFrame.Parent = PlayerContent
+local SellIntCorner = Instance.new("UICorner"); SellIntCorner.CornerRadius = UDim.new(0,10); SellIntCorner.Parent = SellIntFrame
+
+local SellIntText = Instance.new("TextLabel")
+SellIntText.Size = UDim2.new(0.5, 0, 1, 0)
+SellIntText.BackgroundTransparency = 1
+SellIntText.Text = "Sell Every (min):"
+SellIntText.TextColor3 = Color3.fromRGB(255, 255, 255)
+SellIntText.TextScaled = true
+SellIntText.Font = Enum.Font.Gotham
+SellIntText.Parent = SellIntFrame
+
+local SellIntBox = Instance.new("TextBox")
+SellIntBox.Size = UDim2.new(0.3, 0, 0.8, 0)
+SellIntBox.Position = UDim2.new(0.55, 0, 0.1, 0)
+SellIntBox.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+SellIntBox.Text = "3"
+SellIntBox.TextColor3 = Color3.fromRGB(0, 255, 100)
+SellIntBox.TextScaled = true
+SellIntBox.Font = Enum.Font.Gotham
+SellIntBox.Parent = SellIntFrame
+local SellIntBoxCorner = Instance.new("UICorner"); SellIntBoxCorner.CornerRadius = UDim.new(0,8); SellIntBoxCorner.Parent = SellIntBox
+
+local SellIntSetBtn = Instance.new("TextButton")
+SellIntSetBtn.Size = UDim2.new(0.15, 0, 0.8, 0)
+SellIntSetBtn.Position = UDim2.new(0.85, 0, 0.1, 0)
+SellIntSetBtn.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+SellIntSetBtn.Text = "SET"
+SellIntSetBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+SellIntSetBtn.TextScaled = true
+SellIntSetBtn.Font = Enum.Font.GothamBold
+SellIntSetBtn.Parent = SellIntFrame
+local SellIntSetCorner = Instance.new("UICorner"); SellIntSetCorner.CornerRadius = UDim.new(0,8); SellIntSetCorner.Parent = SellIntSetBtn
+
+-- === AUTO SELL BUTTON ===
+local AutoSellBtn = Instance.new("TextButton")
+AutoSellBtn.Size = UDim2.new(0.9, 0, 0, 45)
+AutoSellBtn.Position = UDim2.new(0.05, 0, 0.89, 0)
+AutoSellBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+AutoSellBtn.Text = "AUTO SELL: OFF"
+AutoSellBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoSellBtn.TextScaled = true
+AutoSellBtn.Font = Enum.Font.GothamSemibold
+AutoSellBtn.Parent = PlayerContent
+local AutoSellCorner = Instance.new("UICorner"); AutoSellCorner.CornerRadius = UDim.new(0,10); AutoSellCorner.Parent = AutoSellBtn
+
 -- === TAB SWITCH ===
 MainTabBtn.MouseButton1Click:Connect(function()
     MainContent.Visible = true
@@ -258,7 +314,7 @@ PlayerTabBtn.MouseButton1Click:Connect(function()
     MainTabBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 end)
 
--- === BLATI (Instant Fishing SUPER CEPET) ===
+-- === BLATI (Instant Fishing SUPER CEPET + SECRET) ===
 local blatiLoop
 local function startBlati()
     if blatiLoop then return end
@@ -297,6 +353,44 @@ BlatiBtn.MouseButton1Click:Connect(function()
         BlatiBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
         Status.Text = "BLATI OFF"
         if blatiLoop then task.cancel(blatiLoop) blatiLoop = nil end
+    end
+end)
+
+-- === SELL INTERVAL SET ===
+SellIntSetBtn.MouseButton1Click:Connect(function()
+    local val = tonumber(SellIntBox.Text)
+    if val and val >= 1 and val <= 200 then
+        getgenv().SellInterval = val * 60
+        print("✅ Sell interval di-set ke " .. val .. " menit")
+    else
+        print("❌ Masukkan angka 1-200")
+    end
+end)
+
+-- === AUTO SELL LOOP (pake interval custom) ===
+local autoSellLoop
+local function startAutoSell()
+    if autoSellLoop then return end
+    autoSellLoop = task.spawn(function()
+        while getgenv().AutoSell do
+            if sellRemote then
+                sellRemote:FireServer(1000)
+            end
+            task.wait(getgenv().SellInterval)
+        end
+    end)
+end
+
+AutoSellBtn.MouseButton1Click:Connect(function()
+    getgenv().AutoSell = not getgenv().AutoSell
+    if getgenv().AutoSell then
+        AutoSellBtn.Text = "AUTO SELL: ON"
+        AutoSellBtn.BackgroundColor3 = Color3.fromRGB(0, 200, 0)
+        startAutoSell()
+    else
+        AutoSellBtn.Text = "AUTO SELL: OFF"
+        AutoSellBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+        if autoSellLoop then task.cancel(autoSellLoop) autoSellLoop = nil end
     end
 end)
 
@@ -344,7 +438,6 @@ NoclipBtn.MouseButton1Click:Connect(function()
         if noclipConnection then
             noclipConnection:Disconnect()
             noclipConnection = nil
-            -- restore collide
             if player.Character then
                 for _, v in pairs(player.Character:GetDescendants()) do
                     if v:IsA("BasePart") then v.CanCollide = true end
@@ -372,7 +465,7 @@ player.CharacterAdded:Connect(function()
     end
 end)
 
--- === ANTI AFK (biar ga ke disconnect pas afk) ===
+-- === ANTI AFK ===
 local VirtualUser = game:GetService("VirtualUser")
 Players.LocalPlayer.Idled:Connect(function()
     VirtualUser:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
@@ -380,7 +473,7 @@ Players.LocalPlayer.Idled:Connect(function()
     VirtualUser:Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
 end)
 
--- === MINIMIZE GUI (UI baru dengan tulisan "Hama" pas minimized) ===
+-- === MINIMIZE GUI ===
 local MinimizeBtn = Instance.new("TextButton")
 MinimizeBtn.Size = UDim2.new(0, 40, 0, 30)
 MinimizeBtn.Position = UDim2.new(1, -50, 0, 15)
@@ -402,7 +495,6 @@ MinimizeBtn.MouseButton1Click:Connect(function()
         TabFrame.Visible = false
         MainContent.Visible = false
         PlayerContent.Visible = false
-        -- Tulisan "Hama" muncul pas minimized
         local HamaLabel = Instance.new("TextLabel")
         HamaLabel.Name = "HamaMinLabel"
         HamaLabel.Size = UDim2.new(0.6, 0, 0, 30)
