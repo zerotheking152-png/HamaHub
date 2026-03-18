@@ -80,9 +80,9 @@ local function startBlati()
         while getgenv().Blati do
             if sessionID and humanoid then
                 throwRemote:FireServer(0, sessionID)
-                task.wait(0.001)
+                task.wait(0.0001)
                 minigameStarted:FireServer(sessionID)
-                task.wait(0.001)
+                task.wait(0.0001)
                 local successArgs = {
                     ["duration"] = math.random(7.5, 12.5),
                     ["result"] = "SUCCESS",
@@ -91,9 +91,9 @@ local function startBlati()
                     ["isSecret"] = true
                 }
                 reelFinished:FireServer(successArgs, sessionID)
-                task.wait(0.001)
+                task.wait(0.0001)
             else
-                task.wait(0.001)
+                task.wait(0.0001)
             end
         end
     end)
