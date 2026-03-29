@@ -1,8 +1,3 @@
--- FIXED CFRAME SEKARANG (by Grok v3) - GA PERLU NAMA PULAU LAGI!
--- Sekarang SUPER SIMPLE: 
--- Di mana pun lu berdiri (atas pulau, di air, di langit, dll), 
--- tekan tombol → langsung ambil CFRAME POSISI LU SAAT INI + OTOMATIS COPY KE CLIPBOARD
-
 local player = game.Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
@@ -22,7 +17,6 @@ local corner = Instance.new("UICorner")
 corner.CornerRadius = UDim.new(0, 16)
 corner.Parent = frame
 
--- Judul
 local title = Instance.new("TextLabel")
 title.Size = UDim2.new(1, 0, 0, 50)
 title.BackgroundTransparency = 1
@@ -32,7 +26,6 @@ title.TextScaled = true
 title.Font = Enum.Font.GothamBold
 title.Parent = frame
 
--- Tombol BESAR
 local button = Instance.new("TextButton")
 button.Size = UDim2.new(0.9, 0, 0, 90)
 button.Position = UDim2.new(0.05, 0, 0.35, 0)
@@ -47,7 +40,6 @@ local btnCorner = Instance.new("UICorner")
 btnCorner.CornerRadius = UDim.new(0, 14)
 btnCorner.Parent = button
 
--- FUNGSI TOMBOL (LANGSUNG AMBIL POSISI LU)
 button.MouseButton1Click:Connect(function()
     local character = player.Character
     if not character then
@@ -63,7 +55,6 @@ button.MouseButton1Click:Connect(function()
     
     local cframe = root.CFrame
     
-    -- COPY LANGSUNG KE CLIPBOARD (pasti work di semua executor)
     if setclipboard then
         setclipboard(tostring(cframe))
     end
@@ -78,10 +69,7 @@ button.MouseButton1Click:Connect(function()
         Icon = "rbxassetid://6023426923"
     })
     
-    -- Feedback tombol
     button.Text = "COPIED! ✅"
     task.wait(1.5)
     button.Text = "AMBIL CFRAME POSISI SAAT INI\n+ COPY CLIPBOARD"
 end)
-
-print("GUI CFRAME SEKARANG udah aktif bro! Berdiri di mana saja, tekan tombol → langsung copy!")
